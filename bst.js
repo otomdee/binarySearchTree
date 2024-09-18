@@ -10,7 +10,6 @@ class Tree {
     constructor(array) {
         this.array = array;
         this.root = null;
-        this.insertRoot = null;
     }
 
     buildTree() {
@@ -26,32 +25,26 @@ class Tree {
         this.root = arrange(sortedArray);
     }
 
-    insert(data, root) {
-        let node = new Node(data);
-        //(this.insertRoot tracks the most recent parent Node)
-        //if the space is empty, place the item there
-        if (root === null) {
-            if (node.data < this.insertRoot.data) {
-                this.insertRoot.left = node;
+    insert(data, root = this.root) {
+            if (!root || !root.data) {
+                // When the current root is null, place the new node here.
+                return new Node(data);
             }
-            else if (node.data > this.insertRoot.data) {
-                this.insertRoot.right = node;
-            }
-        }
-        //else, compare value and root
-        else {
             if (data < root.data) {
-                this.insertRoot = root;
-                this.insert(data, root.left);
+                root.left = this.insert(data, root.left);
+            } else if (data > root.data) {
+                root.right = this.insert(data, root.right);
             }
-            else if (data > root.data) {
-                this.insertRoot = root;
-                this.insert(data, root.right);
-            }
+
+            return root;
         }
+
+    deleteItem(value) {
+
     }
 }
 
+//recursive bst arrange function
 function arrange(array) {
     //find middle element(root)
     let index = Math.floor(array.length / 2);
