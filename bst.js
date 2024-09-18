@@ -40,9 +40,34 @@ class Tree {
         }
 
     deleteItem(value) {
-
+        //find the required node
+        let node = findNode(value, this.root);
+        //case 1: node is a leaf
+        if (node.left === null && node.right === null) {
+            node.data = null;
+        }
+        //case 2: node is a
     }
 }
+
+function findNode(value, root) {
+    //search for node
+    if (root === null || root.data === null) {
+        return null;
+    }
+    else if (root.data === value) {
+        return root;
+    }
+    else {
+        if (value < root.data) {
+            return findNode(value, root.left);
+        }
+        else if (value > root.data) {
+            return findNode(value, root.right);
+        }
+    }
+}
+
 
 //recursive bst arrange function
 function arrange(array) {
