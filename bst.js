@@ -26,7 +26,7 @@ class Tree {
     }
 
     insert(data, root = this.root) {
-            if (!root || !root.data) {
+            if (!root) {
                 // When the current root is null, place the new node here.
                 return new Node(data);
             }
@@ -41,29 +41,51 @@ class Tree {
 
     deleteItem(value) {
         //find the required node
-        let node = findNode(value, this.root);
+        let node = findNode(value, this.root)[0];
+        let parent = findNode(value, this.root)[1];
         //case 1: node is a leaf
         if (node.left === null && node.right === null) {
             node.data = null;
         }
-        //case 2: node is a
+        //case 2: node has one child
+        else if (node.left === null || node.right === null) {
+            if(node.data < parent.data) {
+                if (node.left === null) {
+                    parent.left = node.right;
+                }
+                else {
+                    parent.left = node.left;
+                }
+            }
+            else if(node.data > parent.data) {
+                if (node.left === null) {
+                    parent.right = node.right;
+                }
+                else {
+                    parent.right = node.left;
+                }
+            }
+        }
     }
+
 }
 
-function findNode(value, root) {
+function findNode(value, root, parent = root) {
     //search for node
     if (root === null || root.data === null) {
         return null;
     }
     else if (root.data === value) {
-        return root;
+        return [root, parent];
     }
     else {
         if (value < root.data) {
-            return findNode(value, root.left);
+            parent = root;
+            return findNode(value, root.left, parent);
         }
         else if (value > root.data) {
-            return findNode(value, root.right);
+            parent = root;
+            return findNode(value, root.right, parent);
         }
     }
 }
@@ -75,6 +97,10 @@ function arrange(array) {
     let index = Math.floor(array.length / 2);
     root = array[index];
     let node = new Node(root);
+
+    if(node.data === null) {
+        node = null;
+    }
 
     if (array.length > 1) {
         node.left = arrange(array.slice(0, index));
@@ -142,5 +168,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let test =  new Tree(testArray);
 test.buildTree();
-
 prettyPrint(test.root);
