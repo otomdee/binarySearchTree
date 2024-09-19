@@ -66,6 +66,35 @@ class Tree {
                 }
             }
         }
+        //case 3: node has two children
+       else {
+        //find new node
+        let newNode = node.right;
+        let newParent = node;
+        while (!(newNode.left === null)) {
+            newParent = newNode;
+            newNode = newNode.left;
+        }
+        //case 3 - 1: new node is a leaf
+        if (newNode.left === null && newNode.right === null) {
+            //replace node with new node
+            node.data = newNode.data;
+            //delete new node
+            if (newNode.data < newParent.data) {
+                newParent.left = null;
+            }
+            else if (newNode.data > newParent.data) {
+                newParent.right = null;
+            }
+        }
+        //case 3 - 2: new node has children to its right
+        else if (!(newNode.right === null)) {
+            //point new parent to its right child
+            newParent.left = newNode.right;
+            //replace node with new node
+            node.data = newNode.data;
+        }
+       }
     }
 
 }
