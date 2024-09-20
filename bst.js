@@ -102,6 +102,9 @@ class Tree {
     }
 
     levelOrder(callback) {
+        if (callback === undefined) {
+            throw new Error("callback required");
+        }
         //traverse in breadth first, call callback on each node
         let queue = [];
         let node = this.root;
@@ -121,6 +124,14 @@ class Tree {
             node = queue[0];
         }
         while(queue[0]);
+    }
+
+    inOrder(callback) {
+        if (callback === undefined) {
+            throw new Error("callback required");
+        }
+        //traverse depth first, in order
+        recInOrder(this.root, callback);
     }
 }
 
@@ -144,6 +155,15 @@ function findNode(value, root, parent = root) {
     }
 }
 
+//recursive in order traversal
+function recInOrder(root, callback) {
+    //if root is null, return
+    if (!root) return
+
+    recInOrder(root.left, callback);
+    callback(root);
+    recInOrder(root.right,callback);
+}
 
 //recursive bst arrange function
 function arrange(array) {
