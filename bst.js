@@ -142,6 +142,15 @@ class Tree {
         //traverse depth first, pre order
         recPreOrder(this.root, callback);
     }
+
+    postOrder(callback) {
+        if (callback === undefined) {
+            throw new Error("callback required");
+        }
+
+        //traverse depth first, pre order
+        recPostOrder(this.root, callback);
+    }
 }
 
 function findNode(value, root, parent = root) {
@@ -182,6 +191,16 @@ function recPreOrder(root, callback) {
     callback(root);
     recPreOrder(root.left, callback);
     recPreOrder(root.right,callback);
+}
+
+//recursive post order traversal
+function recPostOrder(root, callback) {
+    //if root is null, return
+    if (!root) return
+
+    recPostOrder(root.left, callback);
+    recPostOrder(root.right,callback);
+    callback(root);
 }
 
 //recursive bst arrange function
@@ -262,7 +281,7 @@ let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let test =  new Tree(testArray);
 test.buildTree();
 let temp = [];
-test.preOrder((node) => {
+test.postOrder((node) => {
     temp.push(node.data);
 })
 console.log(temp);
