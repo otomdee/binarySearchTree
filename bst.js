@@ -133,6 +133,15 @@ class Tree {
         //traverse depth first, in order
         recInOrder(this.root, callback);
     }
+
+    preOrder(callback) {
+        if (callback === undefined) {
+            throw new Error("callback required");
+        }
+
+        //traverse depth first, pre order
+        recPreOrder(this.root, callback);
+    }
 }
 
 function findNode(value, root, parent = root) {
@@ -163,6 +172,16 @@ function recInOrder(root, callback) {
     recInOrder(root.left, callback);
     callback(root);
     recInOrder(root.right,callback);
+}
+
+//recursive pre order traversal
+function recPreOrder(root, callback) {
+    //if root is null, return
+    if (!root) return
+
+    callback(root);
+    recPreOrder(root.left, callback);
+    recPreOrder(root.right,callback);
 }
 
 //recursive bst arrange function
@@ -242,5 +261,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let test =  new Tree(testArray);
 test.buildTree();
-
+let temp = [];
+test.preOrder((node) => {
+    temp.push(node.data);
+})
+console.log(temp);
 prettyPrint(test.root);
