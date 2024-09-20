@@ -97,6 +97,31 @@ class Tree {
        }
     }
 
+    find(value) {
+        return findNode(value, this.root);
+    }
+
+    levelOrder(callback) {
+        //traverse in breadth first, call callback on each node
+        let queue = [];
+        let node = this.root;
+
+        do {
+            callback(node);
+            //pop node from queue
+            queue.splice(0,1);
+        //add node children (if any) to queue
+            if (node.left) {
+                queue.push(node.left);
+            }
+            if (node.right) {
+                queue.push(node.right);
+            }
+        //go to first item on queue
+            node = queue[0];
+        }
+        while(queue[0]);
+    }
 }
 
 function findNode(value, root, parent = root) {
@@ -197,4 +222,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let test =  new Tree(testArray);
 test.buildTree();
+
 prettyPrint(test.root);
