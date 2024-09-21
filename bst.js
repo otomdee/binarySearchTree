@@ -157,7 +157,19 @@ class Tree {
     }
 
     depth(node) {
-
+        let currentnode = this.root;
+        let depth = 0;
+        while (!(currentnode === node)) {
+            if (node.data < currentnode.data) {
+                currentnode = currentnode.left;
+                depth++;
+            }
+            else if (node.data > currentnode.data) {
+                currentnode = currentnode.right;
+                depth++;
+            }
+        }
+        return depth;
     }
 }
 
@@ -304,3 +316,4 @@ let test =  new Tree(testArray);
 test.buildTree();
 
 prettyPrint(test.root);
+console.log(test.depth(test.root.left.right));
