@@ -171,8 +171,18 @@ class Tree {
         }
         return depth;
     }
+
+    isBalanced() {
+        //for every node, check the height of its children
+        let isBalanced = true;
+        this.levelOrder((node) => {
+            if (Math.abs(this.height(node.left) - this.height(node.right)) > 1) isBalanced = false;
+        })
+        return isBalanced;
+    }
 }
 
+//recursive find Node function
 function findNode(value, root, parent = root) {
     //search for node
     if (root === null || root.data === null) {
@@ -315,5 +325,9 @@ let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let test =  new Tree(testArray);
 test.buildTree();
 
+
+test.insert(58);
+test.insert(59);
+test.insert(60);
 prettyPrint(test.root);
-console.log(test.depth(test.root.left.right));
+console.log(test.isBalanced());
