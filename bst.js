@@ -330,19 +330,66 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node.left !== null) {
       prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
-  };
+};
 
+//driver script
+function driver(length) {
+    //create bst from array of random numbers < 100
+    let randomArray = [];
+    for (let i = 0; i < length; i++) {
+        randomArray.push(Math.floor(Math.random() * 101));
+    }
+    const bsTree = new Tree(randomArray);
+    bsTree.buildTree();
+    //confirm tree is balanced;
+    console.log(bsTree.isBalanced());
 
-let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-let test =  new Tree(testArray);
-test.buildTree();
+    //Print out all elements in level, pre, post, and in order.
+    let levelOrderArray = [];
+    bsTree.levelOrder((node) => {
+        levelOrderArray.push(node.data);
+    });
+    console.log(levelOrderArray);
+    levelOrderArray = [];
 
+    let inOrderArray = [];
+    bsTree.inOrder((node) => {
+        inOrderArray.push(node.data);
+    });
+    console.log(inOrderArray);
+    inOrderArray = [];
 
-test.insert(58);
-test.insert(59);
-test.insert(60);
-prettyPrint(test.root);
-console.log(test.isBalanced());
-test.reBalance();
-prettyPrint(test.root);
-console.log(test.isBalanced());
+    let postOrderArray = [];
+    bsTree.postOrder((node) => {
+        postOrderArray.push(node.data);
+    });
+    console.log(postOrderArray);
+    postOrderArray = [];
+
+    //Unbalance the tree by adding 15 random numbers > 100, and confirm it is unbalanced
+    let unBalance = [];
+    for (let i = 0; i < 15; i++) {
+        bsTree.insert(Math.floor((Math.random() + 1) * 101));
+    }
+    console.log(bsTree.isBalanced());
+
+    //balance with rebalance and confirm
+    bsTree.reBalance();
+    console.log(bsTree.isBalanced());
+
+    //Print out all elements in level, pre, post, and in order.
+    bsTree.levelOrder((node) => {
+        levelOrderArray.push(node.data);
+    });
+    console.log(levelOrderArray);
+
+    bsTree.inOrder((node) => {
+        inOrderArray.push(node.data);
+    });
+    console.log(inOrderArray);
+
+    bsTree.postOrder((node) => {
+        postOrderArray.push(node.data);
+    });
+    console.log(postOrderArray);
+}
