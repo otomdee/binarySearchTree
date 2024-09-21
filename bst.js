@@ -151,6 +151,14 @@ class Tree {
         //traverse depth first, pre order
         recPostOrder(this.root, callback);
     }
+
+    height(node) {
+        return recHeight(node) - 1;
+    }
+
+    depth(node) {
+
+    }
 }
 
 function findNode(value, root, parent = root) {
@@ -170,6 +178,20 @@ function findNode(value, root, parent = root) {
             parent = root;
             return findNode(value, root.right, parent);
         }
+    }
+}
+
+//recursive height function
+function recHeight(node) {
+    //if null, height = 0
+    if (node === null) {
+        return 0
+    }
+    else {
+        const left = recHeight(node.left) + 1;
+        const right = recHeight(node.right) + 1;
+
+        return Math.max(left, right);
     }
 }
 
@@ -280,9 +302,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let test =  new Tree(testArray);
 test.buildTree();
-let temp = [];
-test.postOrder((node) => {
-    temp.push(node.data);
-})
-console.log(temp);
+
 prettyPrint(test.root);
