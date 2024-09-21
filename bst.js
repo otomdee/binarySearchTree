@@ -180,6 +180,18 @@ class Tree {
         })
         return isBalanced;
     }
+
+    reBalance() {
+        //traverse and collect data
+        let newArray = [];
+        this.levelOrder((node) => {
+            newArray.push(node.data);
+        })
+        //change this.array to collected array
+        this.array = newArray;
+        //build from collected array
+        this.buildTree();
+    }
 }
 
 //recursive find Node function
@@ -329,5 +341,8 @@ test.buildTree();
 test.insert(58);
 test.insert(59);
 test.insert(60);
+prettyPrint(test.root);
+console.log(test.isBalanced());
+test.reBalance();
 prettyPrint(test.root);
 console.log(test.isBalanced());
